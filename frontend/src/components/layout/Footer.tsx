@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Linkedin } from "lucide-react"
 
 export function Footer() {
@@ -7,10 +8,13 @@ export function Footer() {
     <footer className="w-full bg-gray-100 border-t border-gray-300 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
           {/* Company Info */}
           <div>
             <div className="flex items-center mb-4">
-              <img src="/logo.svg" alt="Power Drive Hydraulics Logo" className="h-10 w-10 mr-3" />
+              <Link to="/">
+                <img src="/logo.svg" alt="Power Drive Hydraulics Logo" className="h-10 w-10 mr-3" />
+              </Link>
               <h3 className="text-lg font-semibold text-gray-800">Power Drive Hydraulics</h3>
             </div>
             <p className="text-gray-600 mb-4 max-w-md">
