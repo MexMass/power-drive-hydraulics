@@ -1,22 +1,29 @@
-import { Footer } from "./components/layout/Footer";
-import { Navbar } from "./components/layout/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Navbar } from "./components/layout/Navbar"
+import { Footer } from "./components/layout/Footer"
+// import Home from "./pages/Home"
+// import About from "./pages/About"
+// import Products from "./pages/Products"
+// import Contact from "./pages/Contact"
 
 function App() {
   return (
-    <>
-      <Navbar />
-
-      <main className="flex-grow">
-        {/* Your page content will go here */}
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-4">Welcome to Power Drive Hydraulics</h1>
-          <p>Leading manufacturer of motors, hydraulic winches, and gear reducers.</p>
-        </div>
-      </main>
-
-      <Footer />
-    </>
-  );
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow">
+          <Routes>
+            {/* <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} /> */}
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
+
