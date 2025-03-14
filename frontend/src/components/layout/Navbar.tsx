@@ -16,14 +16,14 @@ export function Navbar() {
 
   return (
     <nav className="w-full bg-gray-100 shadow-md">
-      <div className="mx-auto flex max-w-7xl justify-between px-4 sm:px-6 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3">
         {/* Logo area */}
-        <div className="flex items-center">
-          <a href="/" className="flex items-center">
+        <div>
+          <a href="/">
             <img
               src="/logo.svg"
               alt="Power Drive Hydraulics Logo"
-              className="h-16 w-16 sm:h-20 sm:w-20 md:h-30 md:w-30"
+              className="h-16 w-16 sm:h-20 sm:w-20 md:h-18 md:w-24"
             />
           </a>
         </div>
