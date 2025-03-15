@@ -48,7 +48,7 @@ export default function Contact() {
       {/* Hero Section */}
       <div className="relative h-[200px] md:h-[250px] overflow-hidden">
         <img
-          src="/images/contact_hero.jpg"
+          src="/images/contact_hero.jpeg"
           alt="Contact Power Drive Hydraulics"
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {

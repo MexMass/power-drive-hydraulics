@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { ArrowRight, Award, CheckCircle, Clock, Globe, PenToolIcon as Tool, Users } from "lucide-react"
+import { ArrowRight, Award, CheckCircle, Globe, PenToolIcon as Tool, Users } from "lucide-react"
 
 // Team members data
 const teamMembers = [
@@ -44,30 +44,6 @@ const companyValues = [
     icon: <Globe className="h-6 w-6 text-gray-800" />,
     title: "Global Reach",
     description: "We serve customers worldwide with localized support and service.",
-  },
-]
-
-// Company milestones
-const companyMilestones = [
-  {
-    year: "2024",
-    title: "Company Founded",
-    description: "Power Drive Hydraulics was established to provide high-quality hydraulic solutions.",
-  },
-  {
-    year: "2024",
-    title: "First Product Line",
-    description: "Launched our initial line of hydraulic motors and winches.",
-  },
-  {
-    year: "2024",
-    title: "Manufacturing Expansion",
-    description: "Expanded our manufacturing capabilities with a new facility in China.",
-  },
-  {
-    year: "2024",
-    title: "Global Distribution",
-    description: "Established distribution networks across North America and Europe.",
   },
 ]
 
