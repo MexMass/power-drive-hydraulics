@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
 import { ChevronDown, ChevronUp, Download, FileText, Search } from "lucide-react"
 
 // Product data structure
@@ -193,19 +192,37 @@ const productCategories: ProductCategory[] = [
 ]
 
 export default function Products() {
-  const [activeCategory, setActiveCategory] = useState<string>("motors")
+  const [activeCategory, setActiveCategory] = useState<string>("all")
   const [expandedProducts, setExpandedProducts] = useState<Record<string, boolean>>({})
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [visibleCategories, setVisibleCategories] = useState<string[]>([])
 
-  // Filter products based on search term
-  const filteredCategories = productCategories.map((category) => ({
-    ...category,
-    products: category.products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.shortDescription.toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
-  }))
+  // Initialize visible categories to show all on first load
+  useEffect(() => {
+    if (activeCategory === "all") {
+      setVisibleCategories(productCategories.map((cat) => cat.id))
+    } else {
+      setVisibleCategories([activeCategory])
+    }
+  }, [activeCategory])
+
+  // Filter products based on search term and active category
+  const getFilteredCategories = () => {
+    // First, filter by visible categories
+    const categoriesInView = productCategories.filter((category) => visibleCategories.includes(category.id))
+
+    // Then filter by search term
+    return categoriesInView.map((category) => ({
+      ...category,
+      products: category.products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.shortDescription.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    }))
+  }
+
+  const filteredCategories = getFilteredCategories()
 
   // Toggle product expansion
   const toggleProductExpansion = (productId: string) => {
@@ -215,12 +232,20 @@ export default function Products() {
     }))
   }
 
-  // Scroll to category section
-  const scrollToCategory = (categoryId: string) => {
+  // Set active category and update visible categories
+  const handleCategoryChange = (categoryId: string) => {
     setActiveCategory(categoryId)
-    const element = document.getElementById(categoryId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+
+    if (categoryId === "all") {
+      setVisibleCategories(productCategories.map((cat) => cat.id))
+    } else {
+      setVisibleCategories([categoryId])
+    }
+
+    // Scroll to the top of the products section
+    const productsSection = document.getElementById("products-section")
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: "smooth" })
     }
   }
 
@@ -247,10 +272,20 @@ export default function Products() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
             <div className="flex overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+              {/* Add "All" category button */}
+              <button
+                onClick={() => handleCategoryChange("all")}
+                className={`px-4 py-2 whitespace-nowrap font-medium rounded-md mr-2 transition-colors ${
+                  activeCategory === "all" ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                }`}
+              >
+                All Products
+              </button>
+
               {productCategories.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => scrollToCategory(category.id)}
+                  onClick={() => handleCategoryChange(category.id)}
                   className={`px-4 py-2 whitespace-nowrap font-medium rounded-md mr-2 transition-colors ${
                     activeCategory === category.id
                       ? "bg-gray-800 text-white"
@@ -264,7 +299,7 @@ export default function Products() {
             <div className="relative w-full md:w-64">
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder={`Search ${activeCategory === "all" ? "all products" : activeCategory}...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -275,7 +310,7 @@ export default function Products() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12">
+      <div id="products-section" className="container mx-auto px-4 py-12">
         {/* Product Categories */}
         {filteredCategories.map((category) => (
           <div key={category.id} id={category.id} className="mb-16 scroll-mt-24">
@@ -307,7 +342,7 @@ export default function Products() {
                       <img
                         src={product.image || "/placeholder.svg"}
                         alt={product.name}
-                        className="  object-cover object-center"
+                        className="object-cover object-center"
                       />
                     </div>
                     <div className="p-6 md:w-3/4 flex flex-col md:flex-row items-start md:items-center justify-between">
@@ -364,7 +399,6 @@ export default function Products() {
                             </div>
                             <Download className="h-5 w-5 text-gray-500" />
                           </a>
-
                         </div>
                       </div>
                     </div>
@@ -376,15 +410,34 @@ export default function Products() {
         ))}
 
         {/* No results across all categories */}
-        {filteredCategories.every((category) => category.products.length === 0) && searchTerm && (
+        {filteredCategories.length > 0 &&
+          filteredCategories.every((category) => category.products.length === 0) &&
+          searchTerm && (
+            <div className="bg-gray-50 rounded-lg p-12 text-center my-12">
+              <h3 className="text-xl font-semibold mb-2">No products found</h3>
+              <p className="text-gray-500 mb-6">
+                No products matching "{searchTerm}" were found in
+                {activeCategory === "all" ? " any category" : ` the ${activeCategory} category`}.
+              </p>
+              <button
+                onClick={() => setSearchTerm("")}
+                className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
+
+        {/* No categories visible */}
+        {filteredCategories.length === 0 && (
           <div className="bg-gray-50 rounded-lg p-12 text-center my-12">
-            <h3 className="text-xl font-semibold mb-2">No products found</h3>
-            <p className="text-gray-500 mb-6">No products matching "{searchTerm}" were found in any category.</p>
+            <h3 className="text-xl font-semibold mb-2">No categories selected</h3>
+            <p className="text-gray-500 mb-6">Please select a product category to view products.</p>
             <button
-              onClick={() => setSearchTerm("")}
+              onClick={() => handleCategoryChange("all")}
               className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
             >
-              Clear Search
+              View All Products
             </button>
           </div>
         )}
