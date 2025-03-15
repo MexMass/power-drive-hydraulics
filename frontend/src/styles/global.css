@@ -122,3 +122,13 @@
 .animate-zoom-in {
   animation: zoomIn 1s ease-out forwards;
 }
+
+
+/* Hide scrollbar for category navigation */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
