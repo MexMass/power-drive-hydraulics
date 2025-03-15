@@ -138,6 +138,87 @@ export default function Home() {
           </div>
         </div>
 
+                {/* About Us Section */}
+                <div className="mt-24 mb-24">
+          <div className="bg-gray-50 rounded-lg overflow-hidden shadow-md">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Image Section */}
+              <div className="relative h-80 lg:h-auto">
+                <img
+                  src="/images/factory-floor.jpg"
+                  alt="Power Drive Hydraulics Manufacturing Facility"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent lg:hidden"></div>
+              </div>
+
+              {/* Text Section */}
+              <div className="p-8 lg:p-12 flex flex-col justify-center relative">
+                {/* Technical Background Element */}
+                <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill="#000000"
+                      d="M45.7,-77.2C58.9,-69.2,69.3,-56.7,76.9,-42.8C84.5,-28.9,89.4,-14.5,88.9,-0.3C88.4,13.9,82.6,27.8,74.6,40.5C66.5,53.2,56.2,64.8,43.4,72.5C30.5,80.3,15.3,84.2,0.2,83.9C-14.8,83.6,-29.6,79.1,-43.9,72.1C-58.2,65,-72,55.4,-79.5,42.1C-87,28.8,-88.2,11.9,-86.8,-4.3C-85.3,-20.5,-81.3,-36,-72.4,-48.2C-63.6,-60.4,-49.9,-69.3,-36,-74.8C-22.1,-80.3,-8.1,-82.4,4.4,-79.9C16.9,-77.4,32.5,-85.2,45.7,-77.2Z"
+                      transform="translate(100 100)"
+                    />
+                  </svg>
+                </div>
+
+                <div className="relative">
+                  <h2 className="text-3xl font-bold mb-6 inline-flex items-center">
+                    <span className="mr-3">Our Commitment to Excellence</span>
+                    <div className="h-1 w-12 bg-gray-800"></div>
+                  </h2>
+
+                  <div className="space-y-4 text-gray-700">
+                    <p>
+                      Since 2024, Power Drive Hydraulics has been delivering precision-engineered hydraulic solutions to
+                      North America and global markets. We combine quality craftsmanship with technical innovation to
+                      help you maintain a competitive edge.
+                    </p>
+                    <p>
+                      Working closely with our distributors and world-class OEMs, we provide cost-effective,
+                      high-performance hydraulic components that exceed industry standards. Our manufacturing facilities
+                      in China are equipped with state-of-the-art technology and staffed by skilled engineers committed
+                      to excellence.
+                    </p>
+                    <p>
+                      What sets us apart is our unwavering dedication to quality, reliability, and customer service.
+                      When you choose Power Drive Hydraulics, you're partnering with a manufacturer you can trust to
+                      deliver solutions that perform when it matters most.
+                    </p>
+                  </div>
+
+                  <div className="mt-8">
+                    <Link
+                      to="/about"
+                      className="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors group"
+                    >
+                      <span>Learn More About Us</span>
+                      <svg
+                        className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         {/* Call to Action */}
         <div className="mt-20 text-center bg-gray-50 py-12 px-6 rounded-lg shadow-sm">
           <h3 className="text-2xl font-bold mb-4">Ready to Enhance Your Operations?</h3>
