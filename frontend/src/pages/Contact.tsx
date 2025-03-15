@@ -1,84 +1,40 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { AlertTriangle, Loader2 } from "lucide-react"
+import type React from "react"
 
-// Add type declaration for grecaptcha
-declare global {
-  interface Window {
-    grecaptcha?: {
-      reset: () => void
-    }
-  }
-}
-
-// Form schema
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z
-    .string()
-    .email({
-      message: "Please enter a valid email address.",
-    })
-    .optional()
-    .or(z.literal("")),
-  phone: z.string().min(7, {
-    message: "Phone number must be at least 7 digits.",
-  }),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
-})
-
-type FormValues = z.infer<typeof formSchema>
+import { useState } from "react"
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null)
-  const recaptchaRef = useRef<any>(null)
-
-  // Initialize the form
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-    },
-    mode: "onTouched",
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Handle form submission
-  const onSubmit = async (data: FormValues) => {
-    if (!captchaValue) {
-      alert("Please complete the CAPTCHA verification.")
-      return
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     setIsSubmitting(true)
 
+    // Simulate API call
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      console.log("Form submitted:", {
-        ...data,
-        recaptchaToken: captchaValue,
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      alert("Message sent successfully!")
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
       })
-
-      alert("Message sent successfully! We'll get back to you soon.")
-
-      form.reset()
-      setCaptchaValue(null)
-      if (recaptchaRef.current) {
-        window.grecaptcha?.reset()
-      }
     } catch (error) {
       console.error("Error sending message:", error)
       alert("Failed to send message. Please try again later.")
@@ -95,6 +51,9 @@ export default function Contact() {
           src="/images/contact_hero.jpg"
           alt="Contact Power Drive Hydraulics"
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = "/placeholder.svg"
+          }}
         />
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
@@ -141,130 +100,81 @@ export default function Contact() {
           <div>
             <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-md p-4 mb-6 flex items-start">
-              <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <h3 className="font-semibold text-amber-800">Form Submission Notice</h3>
-                <p className="text-amber-700 text-sm">
-                  This form is for demonstration purposes. In a production environment, it would be connected to a
-                  backend service.
-                </p>
-              </div>
-            </div>
-
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Name
                 </label>
                 <input
                   id="name"
-                  {...form.register("name")}
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Your full name"
-                  className={`w-full px-4 py-2 border ${
-                    form.formState.errors.name ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400`}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
                 />
-                <div className="h-5">
-                  {form.formState.errors.name && (
-                    <p className="text-red-500 text-sm">{form.formState.errors.name.message}</p>
-                  )}
-                </div>
               </div>
 
               <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email (Optional)
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
                   </label>
                   <input
                     id="email"
+                    name="email"
                     type="email"
-                    {...form.register("email")}
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="your.email@example.com"
-                    className={`w-full px-4 py-2 border ${
-                      form.formState.errors.email ? "border-red-500" : "border-gray-300"
-                    } rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400`}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
                   />
-                  <div className="h-5">
-                    {form.formState.errors.email && (
-                      <p className="text-red-500 text-sm">{form.formState.errors.email.message}</p>
-                    )}
-                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                     Phone
                   </label>
                   <input
                     id="phone"
-                    {...form.register("phone")}
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="(555) 123-4567"
-                    className={`w-full px-4 py-2 border ${
-                      form.formState.errors.phone ? "border-red-500" : "border-gray-300"
-                    } rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400`}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
                   />
-                  <div className="h-5">
-                    {form.formState.errors.phone && (
-                      <p className="text-red-500 text-sm">{form.formState.errors.phone.message}</p>
-                    )}
-                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Message
                 </label>
                 <textarea
                   id="message"
-                  {...form.register("message")}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Please describe your inquiry or requirements..."
-                  className={`w-full px-4 py-2 border ${
-                    form.formState.errors.message ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 min-h-[150px]`}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
                 />
-                <div className="h-5">
-                  {form.formState.errors.message && (
-                    <p className="text-red-500 text-sm">{form.formState.errors.message.message}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-6">
-                {/* Placeholder for reCAPTCHA */}
-                <div className="bg-gray-100 border border-gray-300 rounded-md p-4 flex items-center justify-center h-[78px]">
-                  <p className="text-gray-500 text-sm">CAPTCHA verification would appear here</p>
-                </div>
-                {form.formState.isSubmitted && !captchaValue && (
-                  <p className="text-red-500 mt-2 text-sm">Please complete the CAPTCHA verification.</p>
-                )}
               </div>
 
               <button
                 type="submit"
-                className="bg-gray-800 text-white hover:bg-gray-700 w-full md:w-auto rounded-md px-6 py-3 transition-colors duration-200 flex items-center justify-center"
+                className="bg-gray-800 text-white hover:bg-gray-700 w-full md:w-auto rounded-md px-6 py-3 transition-colors duration-200"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  "Send Message"
-                )}
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
-        </div>
-      </div>
-
-      {/* Map Section */}
-      <div className="mt-12 h-[400px] bg-gray-200 relative">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-gray-500">Interactive map would be displayed here</p>
         </div>
       </div>
     </div>
