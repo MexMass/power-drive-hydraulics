@@ -6,19 +6,19 @@ const teamMembers = [
   {
     name: "John Chen",
     position: "Chief Executive Officer",
-    image: "/images/team/john-chen.jpg",
+    image: "/images/team/john-chen.jpeg",
     bio: "With over 20 years of experience in hydraulic systems engineering, John leads our company with a focus on innovation and quality.",
   },
   {
     name: "Sarah Miller",
     position: "Chief Technical Officer",
-    image: "/images/team/sarah-miller.jpg",
+    image: "/images/team/sarah-miller.jpeg",
     bio: "Sarah oversees all technical operations and product development, ensuring our hydraulic solutions meet the highest standards.",
   },
   {
     name: "Michael Zhang",
     position: "Head of Manufacturing",
-    image: "/images/team/michael-zhang.jpg",
+    image: "/images/team/michael-zhang.jpeg",
     bio: "Michael manages our state-of-the-art manufacturing facilities in China, implementing efficient production processes.",
   },
 ]
