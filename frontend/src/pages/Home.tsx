@@ -145,7 +145,7 @@ export default function Home() {
               {/* Image Section */}
               <div className="relative h-80 lg:h-auto">
                 <img
-                  src="/images/factory-floor.jpg"
+                  src="/images/factory_floor.jpeg"
                   alt="Power Drive Hydraulics Manufacturing Facility"
                   className="w-full h-full object-cover"
                 />
@@ -154,16 +154,7 @@ export default function Home() {
 
               {/* Text Section */}
               <div className="p-8 lg:p-12 flex flex-col justify-center relative">
-                {/* Technical Background Element */}
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill="#000000"
-                      d="M45.7,-77.2C58.9,-69.2,69.3,-56.7,76.9,-42.8C84.5,-28.9,89.4,-14.5,88.9,-0.3C88.4,13.9,82.6,27.8,74.6,40.5C66.5,53.2,56.2,64.8,43.4,72.5C30.5,80.3,15.3,84.2,0.2,83.9C-14.8,83.6,-29.6,79.1,-43.9,72.1C-58.2,65,-72,55.4,-79.5,42.1C-87,28.8,-88.2,11.9,-86.8,-4.3C-85.3,-20.5,-81.3,-36,-72.4,-48.2C-63.6,-60.4,-49.9,-69.3,-36,-74.8C-22.1,-80.3,-8.1,-82.4,4.4,-79.9C16.9,-77.4,32.5,-85.2,45.7,-77.2Z"
-                      transform="translate(100 100)"
-                    />
-                  </svg>
-                </div>
+
 
                 <div className="relative">
                   <h2 className="text-3xl font-bold mb-6 inline-flex items-center">
